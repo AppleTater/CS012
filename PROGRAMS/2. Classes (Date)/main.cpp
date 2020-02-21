@@ -5,7 +5,7 @@ The only cout statements within your Date member functions should be:
 1. the "Invalid Date" warnings in the constructors 
 2. in your two print functions
 
-Required Main Function
+REQUIRED MAIN FUNCTION 
 You must use the provided main function and global function getDate as they are here. 
 You may not change these functions at all to pass the tests in submit mode.*/
 
