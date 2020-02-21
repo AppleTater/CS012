@@ -1,4 +1,5 @@
-/*PROGRAM Steps
+/*
+PROGRAM Steps
 1. Get from the command line the name of the file that contains the wind tunnel data.
 
 2. Read wind-tunnel data into two parallel vectors, one vector stores the flight-path angle and the other stores 
@@ -12,7 +13,8 @@ to compute the corresponding coefficient of lift and output it.
 if they answer Yes, otherwise end the program if they answer No.
 
 For linear interpolation to work, the flight-path angles in the data file must be in ascending order. 
-If the flight-path angles are not in ascending order, your program will need to sort them before implementing Step 3.*/
+If the flight-path angles are not in ascending order, your program will need to sort them before implementing Step 3.
+*/
 
 
 
