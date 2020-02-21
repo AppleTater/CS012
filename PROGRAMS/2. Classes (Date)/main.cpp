@@ -1,4 +1,5 @@
-/*OUTPUT SPECIFICATIONS
+/*
+OUTPUT SPECIFICATIONS
 Read the specifications for the print function carefully.
 The only cout statements within your Date member functions should be:
 
@@ -7,7 +8,8 @@ The only cout statements within your Date member functions should be:
 
 REQUIRED MAIN FUNCTION 
 You must use the provided main function and global function getDate as they are here. 
-You may not change these functions at all to pass the tests in submit mode.*/
+You may not change these functions at all to pass the tests in submit mode.
+*/
 
 
 
