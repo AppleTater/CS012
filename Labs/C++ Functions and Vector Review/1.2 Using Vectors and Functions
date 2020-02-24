@@ -1,0 +1,150 @@
+/*
+This program will store roster and rating information for a soccer team. Coaches rate players during tryouts to ensure a balanced team.
+
+(1) Prompt the user to input five pairs of numbers: A player's jersey number (0 - 99) and the player's rating (1 - 9). 
+Store the jersey numbers in one int vector and the ratings in another int vector. Output these vectors (i.e., output the roster).
+*/
+
+
+
+------
+ #include <iostream>
+// FIXME include vector library
+#include <vector>
+using namespace std;
+
+// parameter order will always be jersey #s then ratings
+void outputRoster(const vector<int>& jerseyNumber, const vector<int>& playerRating) {
+   cout << "ROSTER" << endl;
+   for (unsigned int i = 0; i < jerseyNumber.size(); i++) {
+      cout << "Player " << i + 1 << " -- Jersey number: " << jerseyNumber.at(i) 
+      << ", Rating: " << playerRating.at(i) << endl;
+   }
+   return;
+}
+
+void outputMenu() {
+   cout << endl;
+   cout << "MENU" << endl;
+   cout << "a - Add player" << endl;
+   cout << "d - Remove player" << endl;
+   cout << "u - Update player rating" << endl;
+   cout << "r - Output players above a rating" << endl;
+   cout << "o - Output roster" << endl;
+   cout << "q - Quit" << endl;
+   cout << endl;
+   cout << "Choose an option:" << endl;
+}
+   
+void addPlayer(vector<int>& jerseyNumber, vector<int>& playerRating){
+   int newJerseyNumber = 0;
+   int ratings = 0;
+   
+   cout << "Enter another player's jersey number:" << endl;
+   cin >> newJerseyNumber;
+   jerseyNumber.push_back(newJerseyNumber);
+   
+   cout << "Enter another player's rating:" << endl;
+   cin >> ratings;
+   playerRating.push_back(ratings);
+}
+
+void removePlayer(vector<int>& jerseyNumber, vector<int>& playerRating) {
+   int userDelete = 0;
+   
+   cout << "Enter a jersey number:" << endl;
+   cin >> userDelete;
+   
+   for (unsigned int i = 0; i < jerseyNumber.size(); i++) {
+      if (jerseyNumber.at(i) == userDelete) {
+         jerseyNumber.erase(jerseyNumber.begin() + i);
+         playerRating.erase(playerRating.begin() + i);
+      }
+   }
+}
+
+void updatePlayerRating(const vector<int>& jerseyNumber, vector<int>& playerRating) {
+   int newJersey = 0;
+   int newRating = 0;
+   
+   cout << "Enter a jersey number:" << endl;
+   cin >> newJersey;
+   
+   cout << "Enter a new rating for player:" << endl;
+   cin >> newRating;
+   
+   for (unsigned int i = 0; i < jerseyNumber.size(); i++) {
+      if (jerseyNumber.at(i) == newJersey) {
+         playerRating.at(i) = newRating;
+      }
+   }
+}
+
+void outputPlayersAboveRating(const vector<int>& jerseyNumber, const vector<int>& playerRating) {
+   int minRating = 0;
+   
+   cout << "Enter a rating:";
+   cin >> minRating;
+   cout << endl;
+   
+   cout << "ABOVE " << minRating << endl;
+   
+   for (unsigned int i = 0; i < jerseyNumber.size(); i++) {
+      if (playerRating.at(i) > minRating) {
+         cout << "Player " << i + 1 << " -- Jersey number: " << jerseyNumber.at(i) 
+         << ", Rating: " << playerRating.at(i) << endl;
+      }
+   }
+}
+
+int main() {
+
+   /* Type your code here. */
+   vector <int> jerseyNumber(5);
+   vector <int> playerRating(5);
+   
+   char option;
+   
+   for (unsigned int i = 0; i < 5; i++) {
+      cout << "Enter player " << i + 1 << "'s jersey number:" << endl;
+      cin >> jerseyNumber.at(i);
+   
+      cout << "Enter player " << i + 1 << "'s rating:" << endl;
+      cin >> playerRating.at(i);
+      cout << endl;
+   }
+   
+   outputRoster(jerseyNumber, playerRating);
+   outputMenu();
+   
+   cin >> option;
+   
+   while (option != 'q') {
+      if (option == 'a') {
+         addPlayer(jerseyNumber, playerRating);
+         outputMenu();
+         cin >> option;
+      }
+      if (option == 'd') {
+         removePlayer (jerseyNumber, playerRating);
+         outputMenu();
+         cin >> option;
+      }
+      if (option == 'u') {
+         updatePlayerRating (jerseyNumber, playerRating);
+         outputMenu();
+         cin >> option;
+      }
+      if (option == 'r') {
+         outputPlayersAboveRating (jerseyNumber, playerRating);
+         outputMenu();
+         cin >> option;
+      }
+      if (option == 'o') {
+         outputRoster (jerseyNumber, playerRating);
+         outputMenu();
+         cin >> option;
+      }
+   }   
+   return 0;
+}
