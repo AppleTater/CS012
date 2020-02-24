@@ -1,6 +1,8 @@
+/*
 The Monte Carlo method is used in modeling a wide-range of physical systems at the forefront of scientific research today. 
 Monte Carlo simulations are statistical models based on a series of random numbers. 
 Let's consider the problem of estimating Pi by utilizing the Monte Carlo method.
+*/
 
 
 
