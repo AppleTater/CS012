@@ -1,6 +1,6 @@
 /*Implement the function charCnt. charCnt is passed in a name of a file and a single character (type char). 
 This function should open the file, count the number of times the character is found within the file, close the file, 
-and then return the count.
+and then return the count
 */
 
 
