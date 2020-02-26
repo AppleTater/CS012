@@ -1,0 +1,209 @@
+/*
+It may come as a bit of a surprise when the C++ floating-point types (float, double), 
+fail to capture a particular value accurately. Certainly double, which is usually stored as a 64-bit value, 
+is far better than the old float, which is only 32 bits, but problems do arise. For example:
+
+float n = 2.0;
+float d = 3.0;
+cout << precision(17);
+cout << n / d << endl;
+produces 0.6666668653488159, which is accurate to only 8 decimal places - a bit dirty for a discipline that prides itself on precision!
+
+A solution that is often used when precision is of greatest importance and all of the numbers involved are going to be "rational" 
+(that is, expressible as a 'ratio' of two integers - i.e. a fraction) is to use a custom data type - 
+i.e. a class - that implements fractions, or "rational numbers". This is what you will do in this lab assignment.
+*/
+
+
+
+------
+#include <iostream>
+
+using namespace std;
+
+// Rational Class declaration
+class Rational {
+   private:
+      int numerator;
+      int denominator; 
+   public:
+      Rational();
+      explicit Rational(int); 
+      Rational(int, int); 
+      const Rational add(const Rational &) const; 
+      const Rational subtract(const Rational &) const; 
+      const Rational multiply(const Rational &) const; 
+      const Rational divide(const Rational &) const;
+      void simplify();
+      void display() const;
+   private:
+      int gcd(int, int) const;
+};
+
+
+// Implement Rational class member functions here
+
+// (a/b) + (c/d) = (ad + bc) / (b*d)
+const Rational Rational::add (const Rational &r) const {
+    Rational temporary;
+    
+    temporary.numerator = ((r.numerator * denominator) + (r.denominator * numerator));
+    temporary.denominator = (r.denominator * denominator);
+    return temporary;
+}
+
+// (a/b) - (c/d) = (ad - bc) / (b*d)
+const Rational Rational::subtract (const Rational &r) const {
+    Rational temporary;
+    
+    temporary.numerator = ((numerator * r.denominator) - (denominator * r.numerator));
+    temporary.denominator = (r.denominator * denominator);
+    return temporary;
+}
+
+// (a/b) * (c/d) = (ac) / (bd)
+const Rational Rational::multiply (const Rational &r) const {
+    Rational temporary;
+    
+    temporary.numerator = (r.numerator * numerator);
+    temporary.denominator = (r.denominator * denominator);
+    return temporary;
+}
+
+// (a/b) / (c/d) = (ad) / (cb)
+const Rational Rational::divide (const Rational &r) const {
+    Rational temporary;
+    
+    temporary.numerator = (numerator * r.denominator);
+    temporary.denominator = (denominator * r.numerator);
+    return temporary;
+}
+
+Rational::Rational() {
+   numerator = 0;
+   denominator = 1;
+}
+
+Rational::Rational(int numer) {
+    numerator = numer;
+    denominator = 1;
+    return;
+}
+
+Rational::Rational(int numer, int denom) {
+    numerator = numer;
+    denominator = denom;
+    return;
+}
+
+void Rational::display() const{
+   cout << numerator << " / " << denominator;
+}
+
+void Rational::simplify() {                
+    int commonDenom = gcd(numerator, denominator);
+    numerator = numerator / commonDenom;
+    denominator = denominator / commonDenom;
+}
+                          
+int Rational::gcd(int numerator, int denominator) const {
+    int min = numerator;
+    int answer;
+    if (denominator < min) {
+        min = denominator;
+    }
+    for (int i = 1; i <= min; i++) {
+        if (numerator % i == 0 && denominator % i == 0) {
+            answer = i;
+        }
+    }
+    return answer;
+}                         
+// Do not change any of the code below this line!!
+
+Rational getRational();
+void displayResult(const string &, const Rational &, const Rational&, const Rational&);
+
+int main() {
+   Rational A, B, result;
+   char choice;
+   
+   cout << "Enter Rational A:" << endl;
+   A = getRational();
+   cout << endl;
+   
+   cout << "Enter Rational B:" << endl;
+   B = getRational();
+   cout << endl;
+   
+   cout << "Enter Operation:" << endl
+      << "a - Addition (A + B)" << endl
+      << "s - Subtraction (A - B)" << endl
+      << "m - Multiplication (A * B)" << endl
+      << "d - Division (A / B)" << endl
+      << "y - Simplify A" << endl;
+   cin >> choice;
+   cout << endl;
+   
+   if (choice == 'a') {
+      result = A.add(B);
+      displayResult("+", A, B, result);
+   } else if (choice == 's') {
+      result = A.subtract(B);
+      displayResult("-", A, B, result);
+   } else if (choice == 'm') {
+      result = A.multiply(B);
+      displayResult("*", A, B, result);
+   } else if (choice == 'd') {
+      result = A.divide(B);
+      displayResult("/", A, B, result);
+   } else if (choice == 'y') {
+      A.simplify();
+      A.display();
+   } else {
+      cout << "Unknown Operation";
+   }
+   cout << endl;
+   
+   return 0;
+}
+
+
+Rational getRational() {
+   int choice;
+   int numer, denom;
+   
+   cout << "Which Rational constructor? (Enter 2, 1, or 0)" << endl
+      << "2 - 2 parameters (numerator & denominator)" << endl
+      << "1 - 1 parameter (numerator)" << endl
+      << "0 - 0 parameters (default)" << endl;
+   cin >> choice;
+   cout << endl;
+   
+   if (choice == 2) {
+      cout << "numerator? ";
+      cin >> numer;
+      cout << endl;
+      cout << "denominator? ";
+      cin >> denom;
+      cout << endl;
+      return Rational(numer, denom);
+   } else if (choice == 1) {
+      cout << "numerator? ";
+      cin >> numer;
+      cout << endl;
+      return Rational(numer);
+   } else {
+      return Rational();
+   }
+}
+
+void displayResult(const string &op, const Rational &lhs, const Rational&rhs, const Rational &result) {
+   cout << "(";
+   lhs.display();
+   cout << ") " << op << " (";
+   rhs.display();
+   cout << ") = (";
+   result.display();
+   cout << ")";
+}
